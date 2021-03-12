@@ -68,6 +68,8 @@ public class Context {
             CONTEXT_CONFIG_POSTPARSER + ".class";
     public static final String CONTEXT_CONFIG_POSTPARSER_CONFIG =
             CONTEXT_CONFIG_POSTPARSER + ".config";
+    public static final String CONTEXT_CONFIG_DATA_DRIVEN_NODES_TREE =
+            CONTEXT_CONFIG + ".dataDrivenNodes";
     public static final String CONTEXT_CONFIG_DATA_DRIVEN_NODES = CONTEXT_CONFIG + ".ddns";
 
     private static Logger log = LogManager.getLogger(Context.class);
@@ -81,6 +83,7 @@ public class Context {
     private List<String> excludeFromRegexs = new ArrayList<>();
     private List<Pattern> includeInPatterns = new ArrayList<>();
     private List<Pattern> excludeFromPatterns = new ArrayList<>();
+    private List<DataDrivenNode> ddns = new ArrayList<>();
     private List<StructuralNodeModifier> dataDrivenNodes = new ArrayList<>();
 
     /** The authentication method. */
@@ -704,6 +707,10 @@ public class Context {
         sitesTree.removeHistoryReference(sn.getHistoryReference().getHistoryId());
     }
 
+    public List<DataDrivenNode> getDataDrivenNodesTree() {
+        return this.ddns;
+    }
+
     public List<StructuralNodeModifier> getDataDrivenNodes() {
         List<StructuralNodeModifier> ddns = new ArrayList<>(this.dataDrivenNodes.size());
         for (StructuralNodeModifier ddn : this.dataDrivenNodes) {
@@ -712,8 +719,16 @@ public class Context {
         return ddns;
     }
 
+    public void setDataDrivenNodesTree(List<DataDrivenNode> ddns) {
+        this.ddns = ddns;
+    }
+
     public void setDataDrivenNodes(List<StructuralNodeModifier> dataDrivenNodes) {
         this.dataDrivenNodes = dataDrivenNodes;
+    }
+
+    public void addDataDrivenNodeTree(DataDrivenNode ddn) {
+        this.ddns.add(ddn);
     }
 
     public void addDataDrivenNodes(StructuralNodeModifier ddn) {
@@ -891,6 +906,13 @@ public class Context {
         newContext.authorizationDetectionMethod = this.authorizationDetectionMethod.clone();
         newContext.dataDrivenNodes = this.getDataDrivenNodes();
         newContext.setCustomPages(getCustomPages());
+
+        List<DataDrivenNode> newContextDdns = new ArrayList<>(this.ddns.size());
+        for (DataDrivenNode ddn : this.ddns) {
+            newContextDdns.add(ddn.clone());
+        }
+        newContext.setDataDrivenNodesTree(newContextDdns);
+
         return newContext;
     }
 

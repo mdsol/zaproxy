@@ -121,6 +121,7 @@ import org.parosproxy.paros.network.HttpMessage;
 import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.control.ExtensionFactory;
 import org.zaproxy.zap.model.Context;
+import org.zaproxy.zap.model.DataDrivenNode;
 import org.zaproxy.zap.model.IllegalContextNameException;
 import org.zaproxy.zap.model.NameValuePair;
 import org.zaproxy.zap.model.ParameterParser;
@@ -1256,6 +1257,15 @@ public class Session {
         return strList;
     }
 
+    private List<String> ddnListToStringList(List<DataDrivenNode> list) {
+        List<String> strList = new ArrayList<>();
+        for (DataDrivenNode rootDdn : list) {
+            strList.add(rootDdn.getConfig());
+        }
+
+        return strList;
+    }
+
     private List<String> snmListToStringList(List<StructuralNodeModifier> list) {
         List<String> strList = new ArrayList<>();
         for (StructuralNodeModifier snm : list) {
@@ -1298,6 +1308,10 @@ public class Session {
                     c.getId(),
                     RecordContext.TYPE_POST_PARSER_CONFIG,
                     c.getPostParamParser().getConfig());
+            this.setContextData(
+                    c.getId(),
+                    RecordContext.TYPE_DATA_DRIVEN_NODES_TREE,
+                    ddnListToStringList(c.getDataDrivenNodesTree()));
             this.setContextData(
                     c.getId(),
                     RecordContext.TYPE_DATA_DRIVEN_NODES,
@@ -1501,6 +1515,10 @@ public class Session {
                 c.getPostParamParser().getClass().getCanonicalName());
         config.setProperty(
                 Context.CONTEXT_CONFIG_POSTPARSER_CONFIG, c.getPostParamParser().getConfig());
+        for (DataDrivenNode ddn : c.getDataDrivenNodesTree()) {
+            config.addProperty(Context.CONTEXT_CONFIG_DATA_DRIVEN_NODES_TREE, ddn.getConfig());
+        }
+
         for (StructuralNodeModifier snm : c.getDataDrivenNodes()) {
             config.addProperty(Context.CONTEXT_CONFIG_DATA_DRIVEN_NODES, snm.getConfig());
         }
@@ -1593,6 +1611,10 @@ public class Session {
             parser.setContext(c);
             c.setPostParamParser(parser);
         }
+        for (Object obj : config.getList(Context.CONTEXT_CONFIG_DATA_DRIVEN_NODES_TREE)) {
+            c.addDataDrivenNodeTree(new DataDrivenNode(obj.toString()));
+        }
+
         for (Object obj : config.getList(Context.CONTEXT_CONFIG_DATA_DRIVEN_NODES)) {
             c.addDataDrivenNodes(new StructuralNodeModifier(obj.toString()));
         }

@@ -137,12 +137,14 @@ import org.zaproxy.zap.extension.keyboard.ExtensionKeyboard;
 import org.zaproxy.zap.model.Context;
 import org.zaproxy.zap.utils.DisplayUtils;
 import org.zaproxy.zap.view.AbstractContextPropertiesPanel;
+import org.zaproxy.zap.view.ContextDdnPanel;
 import org.zaproxy.zap.view.ContextExcludePanel;
 import org.zaproxy.zap.view.ContextGeneralPanel;
 import org.zaproxy.zap.view.ContextIncludePanel;
 import org.zaproxy.zap.view.ContextListPanel;
 import org.zaproxy.zap.view.ContextPanelFactory;
 import org.zaproxy.zap.view.ContextStructurePanel;
+import org.zaproxy.zap.view.ContextStructureParamPanel;
 import org.zaproxy.zap.view.ContextTechnologyPanel;
 import org.zaproxy.zap.view.SessionExcludeFromProxyPanel;
 import org.zaproxy.zap.view.SessionExcludeFromScanPanel;
@@ -778,10 +780,20 @@ public class View implements ViewDelegate {
         getSessionDialog().addParamPanel(contextPanelPath, contextExcPanel, false);
         this.contextPanels.add(contextExcPanel);
 
+        ContextStructureParamPanel contextStructParamPanel = new ContextStructureParamPanel(c);
+        contextStructParamPanel.setSessionDialog(getSessionDialog());
+        getSessionDialog().addParamPanel(contextPanelPath, contextStructParamPanel, false);
+        this.contextPanels.add(contextStructParamPanel);
+
         ContextStructurePanel contextStructPanel = new ContextStructurePanel(c);
         contextStructPanel.setSessionDialog(getSessionDialog());
         getSessionDialog().addParamPanel(contextPanelPath, contextStructPanel, false);
         this.contextPanels.add(contextStructPanel);
+
+        ContextDdnPanel contextDdnPanel = new ContextDdnPanel(c);
+        contextDdnPanel.setSessionDialog(getSessionDialog());
+        getSessionDialog().addParamPanel(contextPanelPath, contextDdnPanel, false);
+        this.contextPanels.add(contextDdnPanel);
 
         ContextTechnologyPanel contextTechPanel = new ContextTechnologyPanel(c);
         contextTechPanel.setSessionDialog(getSessionDialog());
