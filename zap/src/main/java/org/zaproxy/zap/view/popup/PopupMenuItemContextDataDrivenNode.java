@@ -27,10 +27,15 @@ import org.parosproxy.paros.model.SiteNode;
 import org.parosproxy.paros.view.SessionDialog;
 import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.model.Context;
-import org.zaproxy.zap.model.StructuralNodeModifier;
-import org.zaproxy.zap.view.ContextStructurePanel;
+
+// Deprecated classes
+// import org.zaproxy.zap.model.StructuralNodeModifier;
+// import org.zaproxy.zap.view.ContextStructurePanel;
 
 /** @since 2.4.3 */
+@Deprecated
+// @deprecated - Unused in new DataDrivenNodes Functionality.  Can be replaced with compatible
+// functionality in the future.
 public class PopupMenuItemContextDataDrivenNode extends PopupMenuItemSiteNodeContainer {
 
     private static final long serialVersionUID = 990419495607725846L;
@@ -82,7 +87,8 @@ public class PopupMenuItemContextDataDrivenNode extends PopupMenuItemSiteNodeCon
         sb.append(")(.+?)(/.*)");
         Pattern p = Pattern.compile(sb.toString());
 
-        uiSharedContext.addDataDrivenNodes(
+        // Code using deprecated classes
+        /*uiSharedContext.addDataDrivenNodes(
                 new StructuralNodeModifier(
                         StructuralNodeModifier.Type.DataDrivenNode,
                         p,
@@ -91,7 +97,7 @@ public class PopupMenuItemContextDataDrivenNode extends PopupMenuItemSiteNodeCon
         // Show the session dialog without recreating UI Shared contexts
         View.getSingleton()
                 .showSessionDialog(
-                        session, ContextStructurePanel.getPanelName(context.getId()), false);
+                        session, ContextStructurePanel.getPanelName(context.getId()), false);*/
     }
 
     @Override

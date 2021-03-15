@@ -36,6 +36,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.parosproxy.paros.network.HtmlParameter;
@@ -330,37 +331,38 @@ public class StandardParameterParser implements ParameterParser {
             if (context != null) {
                 String uriStr = uri.toString();
                 boolean changed = false;
-                for (StructuralNodeModifier ddn : context.getDataDrivenNodes()) {
-                    Matcher m = ddn.getPattern().matcher(uriStr);
-                    if (m.find()) {
-                        if (m.groupCount() == 3) {
-                            path =
-                                    m.group(1)
-                                            + SessionStructure.DATA_DRIVEN_NODE_PREFIX
-                                            + ddn.getName()
-                                            + SessionStructure.DATA_DRIVEN_NODE_POSTFIX
-                                            + m.group(3);
-                            if (!path.startsWith("/")) {
-                                // Should always start with a slash;)
-                                path = "/" + path;
+
+                List<DataDrivenNode> dataDrivenNodes = context.getDataDrivenNodesTree();
+                List<DataDrivenNode> foundChildNodes = null;
+                while (dataDrivenNodes != null) {
+                    foundChildNodes = null;
+
+                    for (DataDrivenNode dataDrivenNode : dataDrivenNodes) {
+                        if (dataDrivenNode.isEnabled()) {
+                            Pattern ddnPattern = dataDrivenNode.getRegEx();
+                            Matcher ddnMatcher = ddnPattern.matcher(uriStr);
+
+                            if (ddnMatcher.find()) {
+                                if (!StringUtils.isBlank(dataDrivenNode.getDataNodePattern())) {
+                                    uriStr =
+                                            ddnMatcher.replaceFirst(
+                                                    dataDrivenNode.getReplacementPattern());
+                                    changed = true;
+                                }
+
+                                foundChildNodes = dataDrivenNode.getChildNodes();
+                                break;
                             }
-                            changed = true;
-                        } else if (m.groupCount() == 2) {
-                            path =
-                                    m.group(1)
-                                            + SessionStructure.DATA_DRIVEN_NODE_PREFIX
-                                            + ddn.getName()
-                                            + SessionStructure.DATA_DRIVEN_NODE_POSTFIX;
-                            if (!path.startsWith("/")) {
-                                // Should always start with a slash;)
-                                path = "/" + path;
-                            }
-                            changed = true;
                         }
                     }
+
+                    dataDrivenNodes = foundChildNodes;
                 }
+
                 if (changed) {
-                    log.debug("Changed path from " + uri.getPath() + " to " + path);
+                    log.debug("Changed URI from " + uri.toString() + " to " + uriStr);
+                    URI newUri = new URI(uriStr, false);
+                    path = newUri.getPath();
                 }
             }
 

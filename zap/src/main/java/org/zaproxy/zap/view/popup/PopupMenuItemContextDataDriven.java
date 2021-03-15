@@ -31,6 +31,9 @@ import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.model.Context;
 
 /** @since 2.4.3 */
+@Deprecated
+// @deprecated - Unused in new DataDrivenNodes Functionality.  Can be replaced with compatible
+// functionality in the future.
 public class PopupMenuItemContextDataDriven extends PopupMenuItemSiteNodeContainer {
 
     private static final long serialVersionUID = 3790264690466717219L;

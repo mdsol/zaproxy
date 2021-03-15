@@ -46,9 +46,11 @@ import org.zaproxy.zap.model.Context;
 import org.zaproxy.zap.utils.DisplayUtils;
 import org.zaproxy.zap.view.ContextExportDialog;
 import org.zaproxy.zap.view.DeleteContextAction;
-import org.zaproxy.zap.view.popup.PopupMenuItemContextDataDriven;
 import org.zaproxy.zap.view.popup.PopupMenuItemContextExclude;
 import org.zaproxy.zap.view.popup.PopupMenuItemContextInclude;
+
+// Deprecated class
+// import org.zaproxy.zap.view.popup.PopupMenuItemContextDataDriven;
 
 public class ExtensionStdMenus extends ExtensionAdaptor implements ClipboardOwner {
 
@@ -66,13 +68,15 @@ public class ExtensionStdMenus extends ExtensionAdaptor implements ClipboardOwne
     private PopupMenuOpenUrlInBrowser popupMenuOpenUrlInBrowser = null;
     private PopupMenuItemContextInclude popupContextIncludeMenu = null;
     private PopupMenuItemContextExclude popupContextExcludeMenu = null;
-    private PopupMenuItemContextDataDriven popupContextDataDrivenMenu = null;
     private PopupMenuCopyUrls popupMenuCopyUrls = null;
     private PopupContextTreeMenu popupContextTreeMenuInScope = null;
     private PopupContextTreeMenu popupContextTreeMenuOutScope = null;
     private PopupContextTreeMenu popupContextTreeMenuDelete = null;
     private PopupContextTreeMenu popupContextTreeMenuExport;
     private PopupMenuExportContextURLs popupContextTreeMenuExportUrls;
+
+    // Code using deprecated class
+    // private PopupMenuItemContextDataDriven popupContextDataDrivenMenu = null;
 
     // Still being developed
     // private PopupMenuShowResponseInBrowser popupMenuShowResponseInBrowser = null;
@@ -116,9 +120,11 @@ public class ExtensionStdMenus extends ExtensionAdaptor implements ClipboardOwne
             extensionHook.getHookMenu().addPopupMenuItem(getPopupExcludeFromSpiderMenu(0));
             extensionHook.getHookMenu().addPopupMenuItem(getPopupContextIncludeMenu(1));
             extensionHook.getHookMenu().addPopupMenuItem(getPopupContextExcludeMenu(2));
-            extensionHook
-                    .getHookMenu()
-                    .addPopupMenuItem(getPopupContextDataDrivenMenu(2)); // TODO ??
+
+            // Code using deprecated class
+            /*extensionHook
+            .getHookMenu()
+            .addPopupMenuItem(getPopupContextDataDrivenMenu(2)); // TODO ??*/
 
             if (isExtensionActiveScanEnabled) {
                 extensionHook.getHookMenu().addPopupMenuItem(getPopupMenuActiveScanCustom(3));
@@ -446,13 +452,14 @@ public class ExtensionStdMenus extends ExtensionAdaptor implements ClipboardOwne
         return popupContextExcludeMenu;
     }
 
-    private PopupMenuItemContextDataDriven getPopupContextDataDrivenMenu(int menuIndex) {
+    // Code using deprecated class
+    /*private PopupMenuItemContextDataDriven getPopupContextDataDrivenMenu(int menuIndex) {
         if (popupContextDataDrivenMenu == null) {
             popupContextDataDrivenMenu = new PopupMenuItemContextDataDriven();
             popupContextDataDrivenMenu.setParentMenuIndex(menuIndex);
         }
         return popupContextDataDrivenMenu;
-    }
+    }*/
 
     @Override
     public String getAuthor() {

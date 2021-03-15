@@ -40,9 +40,14 @@ import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.model.Context;
 import org.zaproxy.zap.model.ParameterParser;
 import org.zaproxy.zap.model.StandardParameterParser;
-import org.zaproxy.zap.model.StructuralNodeModifier;
 import org.zaproxy.zap.utils.ZapTextField;
 
+// Deprecated class
+// import org.zaproxy.zap.model.StructuralNodeModifier;
+
+@Deprecated
+// @deprecated - Replaced with dedicated Views for DataDrivenNodes & StructuralParameters (see
+// ContextDdnPanel & ContextStructureParamPanel)
 public class ContextStructurePanel extends AbstractContextPropertiesPanel {
 
     private static final String PANEL_NAME = Constant.messages.getString("context.struct.title");
@@ -183,13 +188,14 @@ public class ContextStructurePanel extends AbstractContextPropertiesPanel {
             this.getUrlKvPairSeparators().setText(urlStdParamParser.getKeyValuePairSeparators());
             this.getUrlKeyValueSeparators().setText(urlStdParamParser.getKeyValueSeparators());
 
-            for (String structParam : urlStdParamParser.getStructuralParameters()) {
+            // Code using deprecated class
+            /*for (String structParam : urlStdParamParser.getStructuralParameters()) {
                 this.ddnTableModel.addStructuralNodeModifier(
                         new StructuralNodeModifier(
                                 StructuralNodeModifier.Type.StructuralParameter,
                                 null,
                                 structParam));
-            }
+            }*/
         }
         if (formParamParser instanceof StandardParameterParser) {
             StandardParameterParser formStdParamParser = (StandardParameterParser) formParamParser;
@@ -245,7 +251,9 @@ public class ContextStructurePanel extends AbstractContextPropertiesPanel {
         ParameterParser urlParamParser = context.getUrlParamParser();
         ParameterParser formParamParser = context.getPostParamParser();
         List<String> structParams = new ArrayList<String>();
-        List<StructuralNodeModifier> ddns = new ArrayList<StructuralNodeModifier>();
+
+        // Code using deprecated class
+        /*List<StructuralNodeModifier> ddns = new ArrayList<StructuralNodeModifier>();
 
         for (StructuralNodeModifier snm : this.ddnTableModel.getElements()) {
             if (snm.getType().equals(StructuralNodeModifier.Type.StructuralParameter)) {
@@ -253,7 +261,7 @@ public class ContextStructurePanel extends AbstractContextPropertiesPanel {
             } else {
                 ddns.add(snm);
             }
-        }
+        }*/
 
         if (urlParamParser instanceof StandardParameterParser) {
             StandardParameterParser urlStdParamParser = (StandardParameterParser) urlParamParser;
@@ -273,7 +281,7 @@ public class ContextStructurePanel extends AbstractContextPropertiesPanel {
             formStdParamParser.setContext(context);
         }
 
-        context.setDataDrivenNodes(ddns);
+        // context.setDataDrivenNodes(ddns);
 
         if (updateSiteStructure) {
             context.restructureSiteTree();
@@ -296,8 +304,10 @@ public class ContextStructurePanel extends AbstractContextPropertiesPanel {
         return "ui.dialogs.context-struct";
     }
 
+    @Deprecated
     public static class DataDrivenNodesMultipleOptionsPanel
-            extends AbstractMultipleOptionsBaseTablePanel<StructuralNodeModifier> {
+            extends AbstractMultipleOptionsBaseTablePanel<
+                    org.zaproxy.zap.model.StructuralNodeModifier> {
         private static final long serialVersionUID = -7216673905642941770L;
         private static final String REMOVE_DIALOG_TITLE =
                 Constant.messages.getString("context.ddn.dialog.remove.title");
@@ -322,29 +332,34 @@ public class ContextStructurePanel extends AbstractContextPropertiesPanel {
         }
 
         @Override
-        public StructuralNodeModifier showAddDialogue() {
+        public org.zaproxy.zap.model.StructuralNodeModifier showAddDialogue() {
             StructuralModifierDialog ddnDialog =
                     new StructuralModifierDialog(
                             View.getSingleton().getSessionDialog(),
                             "context.ddn.dialog.add.title",
                             new Dimension(500, 200));
 
-            return ddnDialog.showDialog(null);
+            // Code using deprecated class
+            // return ddnDialog.showDialog(null);
+            return null;
         }
 
         @Override
-        public StructuralNodeModifier showModifyDialogue(StructuralNodeModifier ddn) {
+        public org.zaproxy.zap.model.StructuralNodeModifier showModifyDialogue(
+                org.zaproxy.zap.model.StructuralNodeModifier ddn) {
             StructuralModifierDialog ddnDialog =
                     new StructuralModifierDialog(
                             View.getSingleton().getSessionDialog(),
                             "context.ddn.dialog.modify.title",
                             new Dimension(500, 200));
 
-            return ddnDialog.showDialog(ddn);
+            // Code using deprecated class
+            // return ddnDialog.showDialog(ddn);
+            return null;
         }
 
         @Override
-        public boolean showRemoveDialogue(StructuralNodeModifier e) {
+        public boolean showRemoveDialogue(org.zaproxy.zap.model.StructuralNodeModifier e) {
             JCheckBox removeWithoutConfirmationCheckBox =
                     new JCheckBox(REMOVE_DIALOG_CHECKBOX_LABEL);
             Object[] messages = {REMOVE_DIALOG_TEXT, " ", removeWithoutConfirmationCheckBox};
@@ -381,15 +396,17 @@ public class ContextStructurePanel extends AbstractContextPropertiesPanel {
         private static final String VALUE_TYPE_DATA = "context.ddn.dialog.type.data";
         private static final String VALUE_TYPE_STRUCT = "context.ddn.dialog.type.struct";
 
-        private StructuralNodeModifier.Type type = StructuralNodeModifier.Type.StructuralParameter;
-        private StructuralNodeModifier ddn = null;
+        private org.zaproxy.zap.model.StructuralNodeModifier.Type type =
+                org.zaproxy.zap.model.StructuralNodeModifier.Type.StructuralParameter;
+        private org.zaproxy.zap.model.StructuralNodeModifier ddn = null;
         private boolean ro = false;
 
         public StructuralModifierDialog(JDialog owner, String titleLabel, Dimension dim) {
             super(owner, titleLabel, dim, true);
         }
 
-        public StructuralNodeModifier showDialog(StructuralNodeModifier ddn) {
+        public org.zaproxy.zap.model.StructuralNodeModifier showDialog(
+                org.zaproxy.zap.model.StructuralNodeModifier ddn) {
             String regex = "";
             String name = "";
 
@@ -401,7 +418,9 @@ public class ContextStructurePanel extends AbstractContextPropertiesPanel {
                 }
                 name = ddn.getName();
                 ro = true;
-                this.addReadOnlyField(FIELD_NAME, getModVal(type), false);
+
+                // Code using deprecated class
+                // this.addReadOnlyField(FIELD_NAME, getModVal(type), false);
             } else {
                 this.addComboField(
                         FIELD_TYPE,
@@ -409,7 +428,9 @@ public class ContextStructurePanel extends AbstractContextPropertiesPanel {
                             Constant.messages.getString(VALUE_TYPE_STRUCT),
                             Constant.messages.getString(VALUE_TYPE_DATA)
                         },
-                        getModVal(type));
+                        // Code using deprecated class
+                        // getModVal(type));
+                        getModVal(null));
                 this.addFieldListener(
                         FIELD_TYPE,
                         new ActionListener() {
@@ -435,16 +456,18 @@ public class ContextStructurePanel extends AbstractContextPropertiesPanel {
                 if (Constant.messages
                         .getString(VALUE_TYPE_STRUCT)
                         .equals(this.getStringValue(FIELD_TYPE))) {
-                    type = StructuralNodeModifier.Type.StructuralParameter;
+                    type = org.zaproxy.zap.model.StructuralNodeModifier.Type.StructuralParameter;
                 } else {
-                    type = StructuralNodeModifier.Type.DataDrivenNode;
+                    type = org.zaproxy.zap.model.StructuralNodeModifier.Type.DataDrivenNode;
                 }
             }
             this.getField(FIELD_REGEX)
-                    .setEnabled(StructuralNodeModifier.Type.DataDrivenNode.equals(type));
+                    .setEnabled(
+                            org.zaproxy.zap.model.StructuralNodeModifier.Type.DataDrivenNode.equals(
+                                    type));
         }
 
-        private String getModVal(StructuralNodeModifier.Type type) {
+        private String getModVal(org.zaproxy.zap.model.StructuralNodeModifier.Type type) {
             switch (type) {
                 case StructuralParameter:
                     return Constant.messages.getString(VALUE_TYPE_STRUCT);
@@ -456,11 +479,12 @@ public class ContextStructurePanel extends AbstractContextPropertiesPanel {
 
         @Override
         public void save() {
-            ddn =
-                    new StructuralNodeModifier(
-                            type,
-                            Pattern.compile(this.getStringValue(FIELD_REGEX)),
-                            this.getStringValue(FIELD_NAME));
+            // Code using deprecated class
+            /*ddn =
+            new StructuralNodeModifier(
+                    type,
+                    Pattern.compile(this.getStringValue(FIELD_REGEX)),
+                    this.getStringValue(FIELD_NAME));*/
         }
 
         @Override
@@ -470,7 +494,7 @@ public class ContextStructurePanel extends AbstractContextPropertiesPanel {
                 return Constant.messages.getString("context.ddn.dialog.error.name");
             }
 
-            if (StructuralNodeModifier.Type.DataDrivenNode.equals(type)) {
+            if (org.zaproxy.zap.model.StructuralNodeModifier.Type.DataDrivenNode.equals(type)) {
                 if (this.isEmptyField(FIELD_REGEX)) {
                     return Constant.messages.getString("context.ddn.dialog.error.regex");
                 }

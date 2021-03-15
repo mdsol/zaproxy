@@ -23,15 +23,19 @@ import java.util.ArrayList;
 import java.util.List;
 import org.parosproxy.paros.Constant;
 import org.zaproxy.zap.model.Context;
-import org.zaproxy.zap.model.StructuralNodeModifier;
+
+// Deprecated class
+// import org.zaproxy.zap.model.StructuralNodeModifier;
 
 /**
  * A table model for holding a set of structural node modifiers, for a {@link Context}.
  *
  * @since 2.4.3
  */
+@Deprecated
+// @deprecated - Unused in new DataDrivenNodes & StructuralParameters Functionality.
 public class StructuralNodeModifiersTableModel
-        extends AbstractMultipleOptionsTableModel<StructuralNodeModifier> {
+        extends AbstractMultipleOptionsTableModel<org.zaproxy.zap.model.StructuralNodeModifier> {
 
     /** The Constant defining the table column names. */
     private static final String[] COLUMN_NAMES = {
@@ -44,7 +48,8 @@ public class StructuralNodeModifiersTableModel
     private static final long serialVersionUID = 4463944219657112162L;
 
     /** The users. */
-    private List<StructuralNodeModifier> snms = new ArrayList<StructuralNodeModifier>();
+    private List<org.zaproxy.zap.model.StructuralNodeModifier> snms =
+            new ArrayList<org.zaproxy.zap.model.StructuralNodeModifier>();
 
     /**
      * Instantiates a new structural node modifiers table model. An internal copy of the provided
@@ -52,7 +57,8 @@ public class StructuralNodeModifiersTableModel
      *
      * @param snms the structural node modifiers
      */
-    public StructuralNodeModifiersTableModel(List<StructuralNodeModifier> snms) {
+    public StructuralNodeModifiersTableModel(
+            List<org.zaproxy.zap.model.StructuralNodeModifier> snms) {
         this.snms = new ArrayList<>(snms);
     }
 
@@ -95,7 +101,7 @@ public class StructuralNodeModifiersTableModel
     }
 
     @Override
-    public List<StructuralNodeModifier> getElements() {
+    public List<org.zaproxy.zap.model.StructuralNodeModifier> getElements() {
         return snms;
     }
 
@@ -104,7 +110,7 @@ public class StructuralNodeModifiersTableModel
      *
      * @return the users
      */
-    public List<StructuralNodeModifier> getStructuralNodeModifiers() {
+    public List<org.zaproxy.zap.model.StructuralNodeModifier> getStructuralNodeModifiers() {
         return snms;
     }
 
@@ -119,12 +125,14 @@ public class StructuralNodeModifiersTableModel
      *
      * @param snms the new structural node modifiers
      */
-    public void setStructuralNodeModifiers(List<StructuralNodeModifier> snms) {
+    public void setStructuralNodeModifiers(
+            List<org.zaproxy.zap.model.StructuralNodeModifier> snms) {
         this.snms = new ArrayList<>(snms);
         this.fireTableDataChanged();
     }
 
-    public void addStructuralNodeModifiers(List<StructuralNodeModifier> snms) {
+    public void addStructuralNodeModifiers(
+            List<org.zaproxy.zap.model.StructuralNodeModifier> snms) {
         this.snms.addAll(snms);
         this.fireTableDataChanged();
     }
@@ -140,7 +148,7 @@ public class StructuralNodeModifiersTableModel
      *
      * @param snm the structural node modifier
      */
-    public void addStructuralNodeModifier(StructuralNodeModifier snm) {
+    public void addStructuralNodeModifier(org.zaproxy.zap.model.StructuralNodeModifier snm) {
         this.snms.add(snm);
         this.fireTableRowsInserted(this.snms.size() - 1, this.snms.size() - 1);
     }

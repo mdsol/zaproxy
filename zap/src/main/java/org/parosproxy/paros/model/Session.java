@@ -127,11 +127,13 @@ import org.zaproxy.zap.model.NameValuePair;
 import org.zaproxy.zap.model.ParameterParser;
 import org.zaproxy.zap.model.SessionStructure;
 import org.zaproxy.zap.model.StandardParameterParser;
-import org.zaproxy.zap.model.StructuralNodeModifier;
 import org.zaproxy.zap.model.Tech;
 import org.zaproxy.zap.model.TechSet;
 import org.zaproxy.zap.utils.Stats;
 import org.zaproxy.zap.utils.ZapXmlConfiguration;
+
+// Deprecated class
+// import org.zaproxy.zap.model.StructuralNodeModifier;
 
 public class Session {
 
@@ -521,7 +523,8 @@ public class Session {
                 log.error("Failed to load POST parser for context " + ctx.getId(), e);
             }
 
-            try {
+            // Code using deprecated class
+            /*try {
                 // Set up the Data Driven Nodes
                 List<String> strs =
                         this.getContextDataStrings(
@@ -531,7 +534,7 @@ public class Session {
                 }
             } catch (Exception e) {
                 log.error("Failed to load data driven nodes for context " + ctx.getId(), e);
-            }
+            }*/
 
             ctx.restructureSiteTree();
         }
@@ -1266,13 +1269,14 @@ public class Session {
         return strList;
     }
 
-    private List<String> snmListToStringList(List<StructuralNodeModifier> list) {
+    // Code using deprecated class
+    /*private List<String> snmListToStringList(List<StructuralNodeModifier> list) {
         List<String> strList = new ArrayList<>();
         for (StructuralNodeModifier snm : list) {
             strList.add(snm.getConfig());
         }
         return strList;
-    }
+    }*/
 
     public void saveContext(Context c) {
         try {
@@ -1312,10 +1316,12 @@ public class Session {
                     c.getId(),
                     RecordContext.TYPE_DATA_DRIVEN_NODES_TREE,
                     ddnListToStringList(c.getDataDrivenNodesTree()));
-            this.setContextData(
-                    c.getId(),
-                    RecordContext.TYPE_DATA_DRIVEN_NODES,
-                    snmListToStringList(c.getDataDrivenNodes()));
+
+            // Code using deprecated class
+            /*this.setContextData(
+            c.getId(),
+            RecordContext.TYPE_DATA_DRIVEN_NODES,
+            snmListToStringList(c.getDataDrivenNodes()));*/
 
             model.saveContext(c);
         } catch (DatabaseException e) {
@@ -1519,9 +1525,10 @@ public class Session {
             config.addProperty(Context.CONTEXT_CONFIG_DATA_DRIVEN_NODES_TREE, ddn.getConfig());
         }
 
-        for (StructuralNodeModifier snm : c.getDataDrivenNodes()) {
+        // Code using deprecated class
+        /*for (StructuralNodeModifier snm : c.getDataDrivenNodes()) {
             config.addProperty(Context.CONTEXT_CONFIG_DATA_DRIVEN_NODES, snm.getConfig());
-        }
+        }*/
 
         model.exportContext(c, config);
         config.save(file);
@@ -1615,9 +1622,10 @@ public class Session {
             c.addDataDrivenNodeTree(new DataDrivenNode(obj.toString()));
         }
 
-        for (Object obj : config.getList(Context.CONTEXT_CONFIG_DATA_DRIVEN_NODES)) {
+        // Code using deprecated class
+        /*for (Object obj : config.getList(Context.CONTEXT_CONFIG_DATA_DRIVEN_NODES)) {
             c.addDataDrivenNodes(new StructuralNodeModifier(obj.toString()));
-        }
+        }*/
 
         model.importContext(c, config);
 

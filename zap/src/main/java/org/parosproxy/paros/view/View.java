@@ -143,7 +143,6 @@ import org.zaproxy.zap.view.ContextGeneralPanel;
 import org.zaproxy.zap.view.ContextIncludePanel;
 import org.zaproxy.zap.view.ContextListPanel;
 import org.zaproxy.zap.view.ContextPanelFactory;
-import org.zaproxy.zap.view.ContextStructurePanel;
 import org.zaproxy.zap.view.ContextStructureParamPanel;
 import org.zaproxy.zap.view.ContextTechnologyPanel;
 import org.zaproxy.zap.view.SessionExcludeFromProxyPanel;
@@ -156,6 +155,9 @@ import org.zaproxy.zap.view.messagelocation.MessageLocationHighlightRenderersEdi
 import org.zaproxy.zap.view.messagelocation.TextMessageLocationHighlight;
 import org.zaproxy.zap.view.messagelocation.TextMessageLocationHighlightEditor;
 import org.zaproxy.zap.view.messagelocation.TextMessageLocationHighlightRenderer;
+
+// Deprecated class
+// import org.zaproxy.zap.view.ContextStructurePanel;
 
 public class View implements ViewDelegate {
 
@@ -785,10 +787,11 @@ public class View implements ViewDelegate {
         getSessionDialog().addParamPanel(contextPanelPath, contextStructParamPanel, false);
         this.contextPanels.add(contextStructParamPanel);
 
-        ContextStructurePanel contextStructPanel = new ContextStructurePanel(c);
+        // Code using deprecated class
+        /*ContextStructurePanel contextStructPanel = new ContextStructurePanel(c);
         contextStructPanel.setSessionDialog(getSessionDialog());
         getSessionDialog().addParamPanel(contextPanelPath, contextStructPanel, false);
-        this.contextPanels.add(contextStructPanel);
+        this.contextPanels.add(contextStructPanel);*/
 
         ContextDdnPanel contextDdnPanel = new ContextDdnPanel(c);
         contextDdnPanel.setSessionDialog(getSessionDialog());

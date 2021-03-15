@@ -43,6 +43,8 @@ import org.zaproxy.zap.utils.Enableable;
  * @author simon
  * @since 2.4.3
  */
+@Deprecated
+// @deprecated - Replaced with two dedicated classes (DataDrivenNode & StructuralParameter)
 public class StructuralNodeModifier extends Enableable implements Cloneable {
     public enum Type {
         DataDrivenNode,

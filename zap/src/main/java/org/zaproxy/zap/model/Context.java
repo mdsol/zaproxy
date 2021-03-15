@@ -83,7 +83,10 @@ public class Context {
     private List<String> excludeFromRegexs = new ArrayList<>();
     private List<Pattern> includeInPatterns = new ArrayList<>();
     private List<Pattern> excludeFromPatterns = new ArrayList<>();
-    private List<DataDrivenNode> ddns = new ArrayList<>();
+    private List<DataDrivenNode> dataDrivenNodesTree = new ArrayList<>();
+
+    @Deprecated
+    // @deprecated - Replaced with dataDrivenNodesTree member
     private List<StructuralNodeModifier> dataDrivenNodes = new ArrayList<>();
 
     /** The authentication method. */
@@ -708,9 +711,11 @@ public class Context {
     }
 
     public List<DataDrivenNode> getDataDrivenNodesTree() {
-        return this.ddns;
+        return this.dataDrivenNodesTree;
     }
 
+    @Deprecated
+    // @deprecated - Replaced with getDataDrivenNodesTree()
     public List<StructuralNodeModifier> getDataDrivenNodes() {
         List<StructuralNodeModifier> ddns = new ArrayList<>(this.dataDrivenNodes.size());
         for (StructuralNodeModifier ddn : this.dataDrivenNodes) {
@@ -720,21 +725,27 @@ public class Context {
     }
 
     public void setDataDrivenNodesTree(List<DataDrivenNode> ddns) {
-        this.ddns = ddns;
+        this.dataDrivenNodesTree = ddns;
     }
 
+    @Deprecated
+    // @deprecated - Replaced with setDataDrivenNodesTree()
     public void setDataDrivenNodes(List<StructuralNodeModifier> dataDrivenNodes) {
         this.dataDrivenNodes = dataDrivenNodes;
     }
 
     public void addDataDrivenNodeTree(DataDrivenNode ddn) {
-        this.ddns.add(ddn);
+        this.dataDrivenNodesTree.add(ddn);
     }
 
+    @Deprecated
+    // @deprecated - Replaced with addDataDrivenNodeTree()
     public void addDataDrivenNodes(StructuralNodeModifier ddn) {
         this.dataDrivenNodes.add(ddn.clone());
     }
 
+    @Deprecated
+    // @deprecated - Unused function
     public String getDefaultDDNName() {
         int i = 1;
         while (true) {
@@ -907,8 +918,8 @@ public class Context {
         newContext.dataDrivenNodes = this.getDataDrivenNodes();
         newContext.setCustomPages(getCustomPages());
 
-        List<DataDrivenNode> newContextDdns = new ArrayList<>(this.ddns.size());
-        for (DataDrivenNode ddn : this.ddns) {
+        List<DataDrivenNode> newContextDdns = new ArrayList<>(this.dataDrivenNodesTree.size());
+        for (DataDrivenNode ddn : this.dataDrivenNodesTree) {
             newContextDdns.add(ddn.clone());
         }
         newContext.setDataDrivenNodesTree(newContextDdns);
